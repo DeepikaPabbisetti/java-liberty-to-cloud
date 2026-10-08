@@ -21,7 +21,6 @@ exposed as a REST API and packaged to run on **IBM WebSphere Liberty** in **Dock
 7. [Deploy to OpenShift](#7-deploy-to-openshift)
 8. [Run locally without containers](#8-run-locally-without-containers)
 9. [Application reference](#9-application-reference)
-10. [Troubleshooting](#10-troubleshooting)
 
 ---
 
@@ -349,16 +348,6 @@ curl -X POST http://localhost:9080/api/orders -H "Content-Type: application/json
 
 **Order state machine:** `CREATED -> CONFIRMED -> PROCESSING -> SHIPPED -> DELIVERED`;
 `CREATED / CONFIRMED / PROCESSING -> CANCELLED`. Delivered and cancelled orders are final.
-
-## 10. Troubleshooting
-
-| Symptom | Cause / fix |
-|---|---|
-| `Schema-validation: missing column [version] in table [orders]` | The database was created by an older schema. Restart with `SQL_INIT_MODE=always` (default) so `schema.sql` adds the column, or run the `ALTER TABLE` statements in `schema.sql` manually. |
-| `DB_HOST is required` on `docker compose up` | Required variables are not exported in the current shell. |
-| Connection refused / timeout to the database | Host not reachable from the container; use `host.docker.internal` for a host-local DB, and check firewall and `pg_hba.conf`. |
-| `factory already defined` on Liberty | Embedded Tomcat is on the classpath; keep it `provided` in `pom.xml`. |
-| Permission denied writing `/logs` on OpenShift | Rebuild the image so the log directories are group-writable (Dockerfile). |
 
 ## Status and roadmap
 
