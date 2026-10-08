@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<server description="Order Management System - Liberty Server">
+
+    <featureManager>
+        <feature>springBoot-3.0</feature>
+        <feature>servlet-6.0</feature>
+        <feature>jdbc-4.3</feature>
+        <feature>jndi-1.0</feature>
+    </featureManager>
+
+    <httpEndpoint id="defaultHttpEndpoint"
+                  host="*"
+                  httpPort="9080"
+                  httpsPort="9443" />
+
+    <springBootApplication id="order-management"
+                           location="order-management.jar"
+                           name="order-management" />
+
+    <dataSource id="orderManagementDS" jndiName="jdbc/orderManagementDS" statementCacheSize="60">
+        <jdbcDriver libraryRef="postgresLib" />
+        <properties.postgresql serverName="${env.DB_HOST}"
+                               portNumber="${env.DB_PORT}"
+                               databaseName="${env.DB_NAME}"
+                               user="${env.DB_USERNAME}"
+                               password="${env.DB_PASSWORD}" />
+        <connectionManager minPoolSize="2" maxPoolSize="10" connectionTimeout="30s" maxIdleTime="10m" />
+    </dataSource>
+
+    <library id="postgresLib">
+        <fileset dir="/opt/ibm/wlp/usr/shared/resources/postgres/" includes="postgresql-*.jar" />
+    </library>
+
+</server>
