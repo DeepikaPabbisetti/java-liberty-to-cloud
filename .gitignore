@@ -1,0 +1,16 @@
+target/
+*.class
+*.jar
+*.war
+!docker/postgres/*.jar
+
+# Local environment values — never commit
+.env
+
+# IDE
+.idea/
+*.iml
+.vscode/
+*.DS_Store
+
+logs/
