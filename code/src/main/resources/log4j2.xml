@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN">
+
+    <Properties>
+        <Property name="LOG_PATTERN">%d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n</Property>
+        <Property name="logDir">${env:APP_LOG_DIR:-logs}</Property>
+        <Property name="appLogLevel">${env:APP_LOG_LEVEL:-INFO}</Property>
+    </Properties>
+
+    <Appenders>
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="${LOG_PATTERN}" />
+        </Console>
+
+        <RollingFile name="File"
+                     fileName="${logDir}/order-management.log"
+                     filePattern="${logDir}/order-management-%d{yyyy-MM-dd}-%i.log.gz">
+            <PatternLayout pattern="${LOG_PATTERN}" />
+            <Policies>
+                <TimeBasedTriggeringPolicy />
+                <SizeBasedTriggeringPolicy size="50MB" />
+            </Policies>
+            <DefaultRolloverStrategy max="30" />
+        </RollingFile>
+    </Appenders>
+
+    <Loggers>
+        <Logger name="com.example.ordermanagement" level="${appLogLevel}" />
+        <Logger name="org.springframework" level="WARN" />
+        <Logger name="org.hibernate" level="WARN" />
+
+        <Root level="WARN">
+            <AppenderRef ref="Console" />
+            <AppenderRef ref="File" />
+        </Root>
+    </Loggers>
+
+</Configuration>
